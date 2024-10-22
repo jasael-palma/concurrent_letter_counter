@@ -1,0 +1,21 @@
+Hola mundo, este es un ejemplo de archivo de texto.
+
+Este archivo tiene varios párrafos y saltos de línea.
+
+Para probar la funcionalidad de lectura de archivos.
+
+En diferentes sistemas operativos y plataformas.
+
+Con distintos tamaños y formatos de archivo.
+
+Este archivo es de tamaño mediano.
+
+Con aproximadamente 150 palabras.
+
+Y 10 saltos de línea.
+
+Para verificar la compatibilidad.
+
+Y rendimiento del sistema.
+
+Fin del archivo.
