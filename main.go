@@ -12,10 +12,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// Create a wait group
-var waitGroup sync.WaitGroup
-var letterCounter = make(map[string]int)
-
 func main() {
 	port := 3000
 	address := fmt.Sprintf(":%d", port)
@@ -28,6 +24,10 @@ func main() {
 }
 
 func CounterLettersHandler(context *fiber.Ctx) error {
+	// Create a wait group
+	var waitGroup sync.WaitGroup
+	var letterCounter = make(map[string]int)
+
 	context.Accepts("multipart")
 
 	// Parse the multipart form
@@ -77,7 +77,7 @@ func CounterLettersHandler(context *fiber.Ctx) error {
 
 	for i := 0; i < len(arrayParagraphs); i++ {
 		// Count the letters in the paragraph
-		go CountLetters(arrayParagraphs[i], &mutex)
+		go CountLetters(arrayParagraphs[i], &mutex, &waitGroup, letterCounter)
 	}
 
 	waitGroup.Wait()
@@ -85,7 +85,7 @@ func CounterLettersHandler(context *fiber.Ctx) error {
 	return context.Status(http.StatusOK).JSON(letterCounter)
 }
 
-func CountLetters(paragraph string, m *sync.Mutex) {
+func CountLetters(paragraph string, m *sync.Mutex, waitGroup *sync.WaitGroup, letterCounter map[string]int) {
 	defer waitGroup.Done()
 
 	runeRegex := regexp.MustCompile("[a-z]")
