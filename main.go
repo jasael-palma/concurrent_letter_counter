@@ -26,7 +26,34 @@ func main() {
 func CounterLettersHandler(context *fiber.Ctx) error {
 	// Create a wait group
 	var waitGroup sync.WaitGroup
-	var letterCounter = make(map[string]int)
+	letterCounter := map[string]int{
+		"A": 0,
+		"B": 0,
+		"C": 0,
+		"D": 0,
+		"E": 0,
+		"F": 0,
+		"G": 0,
+		"H": 0,
+		"I": 0,
+		"J": 0,
+		"K": 0,
+		"L": 0,
+		"M": 0,
+		"N": 0,
+		"O": 0,
+		"P": 0,
+		"Q": 0,
+		"R": 0,
+		"S": 0,
+		"T": 0,
+		"U": 0,
+		"V": 0,
+		"W": 0,
+		"X": 0,
+		"Y": 0,
+		"Z": 0,
+	}
 
 	context.Accepts("multipart")
 
@@ -64,10 +91,9 @@ func CounterLettersHandler(context *fiber.Ctx) error {
 	content := string(buffer)
 
 	contentWithoutSpaces := strings.ReplaceAll(content, " ", "")
-	contentInLowerCase := strings.ToLower(contentWithoutSpaces)
 
 	// Split the content into paragraphs
-	arrayParagraphs := strings.Split(contentInLowerCase, "\n")
+	arrayParagraphs := strings.Split(contentWithoutSpaces, "\n")
 
 	// mutex
 	var mutex sync.Mutex
@@ -88,13 +114,13 @@ func CounterLettersHandler(context *fiber.Ctx) error {
 func CountLetters(paragraph string, m *sync.Mutex, waitGroup *sync.WaitGroup, letterCounter map[string]int) {
 	defer waitGroup.Done()
 
-	runeRegex := regexp.MustCompile("[a-z]")
+	runeRegex := regexp.MustCompile("(?i)[a-z]")
 
 	letters := runeRegex.FindAllString(paragraph, -1)
 
 	for _, letter := range letters {
 		m.Lock()
-		letterCounter[letter]++
+		letterCounter[strings.ToUpper(letter)]++
 		m.Unlock()
 	}
 }
